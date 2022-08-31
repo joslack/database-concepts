@@ -269,34 +269,88 @@ SELECT * FROM WhiteWalker w WHERE w.kills > 5;
 \qecho 'Problem 3'
 SELECT w.wid, w.wname, w.wlocation
 FROM Westerosi w
-WHERE w.wid IN (SELECT o.wid FROM OfHouse o WHERE o.hname = 'Stark');
+WHERE w.wid IN (
+     SELECT o.wid 
+     FROM OfHouse o 
+     WHERE o.hname = 'Stark'
+     );
 
 \qecho 'Problem 4'
 SELECT w.wid
 FROM WesterosiSkill w
 EXCEPT
-SELECT w.wid FROM WesterosiSkill w 
-WHERE w.skill = 'Archery' OR w.skill = 'Swordsmanship';
+SELECT w.wid 
+FROM WesterosiSkill w 
+WHERE w.skill = 'Archery' 
+     OR w.skill = 'Swordsmanship';
 
 \qecho 'Problem 5'
 
 \qecho 'Problem 6'
 SELECT w.wid, w.wname, h.hname
 FROM Westerosi w, OfHouse h
-WHERE h.hname IN
-(SELECT har.hname FROM HouseAllyRegion har WHERE har.region = 'CasterlyRock')
- AND h.wid = w.wid
- AND 'Archery' IN (SELECT s.skill from WesterosiSkill s WHERE s.wid = w.wid);
- AND h.wages > 50000 AND h.wages < 75000;
+WHERE h.hname IN (
+          SELECT har.hname 
+          FROM HouseAllyRegion har 
+          WHERE har.region = 'CasterlyRock'
+          )
+     AND h.wid = w.wid
+     AND 'Archery' IN (
+          SELECT s.skill 
+          FROM WesterosiSkill s 
+          WHERE s.wid = w.wid
+          )
+     AND h.wages > 50000 
+     AND h.wages < 75000;
+     
 \qecho 'Problem 7'
+-- given wid1 != wid2 and hname1 = hname2 then there are two westerosi with the same house
+SELECT DISTINCT h.hname
+FROM OfHouse h, OfHouse h1
+WHERE h.wid <> h1.wid 
+     AND h.hname = h1.hname 
+ORDER BY h.hname ASC;
 
 \qecho 'Problem 8'
+SELECT DISTINCT w.wid, w.wname, w.wlocation
+FROM Westerosi w
+WHERE w.wid IN (
+     SELECT s.succid 
+     FROM Predecessor s
+     );
 
 \qecho 'Problem 9'
+SELECT w.wid
+FROM Westerosi w, WesterosiSkill s
+WHERE w.wid = s.wid 
+     AND (
+          s.skill = 'Archery'
+          OR s.skill = 'Politics'
+          )
+INTERSECT
+SELECT w.wid
+FROM Westerosi w, OfHouse h
+WHERE w.wid = h.wid 
+     AND (
+          h.hname = 'Stark' 
+          OR h.hname = 'Baratheon'
+          );
 
 \qecho 'Problem 10'
-
-
+(SELECT w.wid
+FROM Westerosi w
+EXCEPT
+SELECT p.succid
+FROM Predecessor p)
+UNION
+(SELECT w1.wid
+FROM Westerosi w1
+EXCEPT
+SELECT h.wid
+FROM OfHouse h
+EXCEPT
+SELECT s.wid
+FROM WesterosiSkill s);
 -- Connect to default database
 \c postgres;
 
