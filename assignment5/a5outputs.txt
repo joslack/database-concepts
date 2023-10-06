@@ -1,0 +1,56 @@
+CREATE DATABASE
+You are now connected to database "joslack" as user "postgres".
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+INSERT 0 20
+INSERT 0 7
+INSERT 0 19
+INSERT 0 14
+INSERT 0 5
+INSERT 0 39
+INSERT 0 15
+INSERT 0 63
+Problem 1
+ wid  |  wname  
+------+---------
+ 1005 | Jamie
+ 1003 | Sansa
+ 1011 | Catelyn
+(3 rows)
+
+Problem 2
+    hname    |   kingdom    
+-------------+--------------
+ Baratheon   | KingsLanding
+ Lannister   | CasterlyRock
+ NightsWatch | CastleBlack
+ Targaryen   | KingsLanding
+(4 rows)
+
+Problem 3
+ wid  
+------
+ 1014
+ 1018
+(2 rows)
+
+Problem 4
+ wid  
+------
+ 1006
+ 1007
+(2 rows)
+
+Problem 5
+ wid  
+------
+ 1010
+ 1006
+(2 rows)
+

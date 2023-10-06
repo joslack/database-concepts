@@ -1,0 +1,108 @@
+CREATE DATABASE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+INSERT 0 20
+INSERT 0 7
+INSERT 0 19
+INSERT 0 14
+INSERT 0 5
+INSERT 0 39
+INSERT 0 15
+INSERT 0 63
+Problem 1
+  hname  
+---------
+ Martell
+(1 row)
+
+Problem 2
+ wid  |    region     
+------+---------------
+ 1001 | Winterfell
+ 1001 | CastleBlack
+ 1002 | Highgarden
+ 1004 | CasterlyRock
+ 1004 | Highgarden
+ 1005 | Highgarden
+ 1005 | CasterlyRock
+ 1006 | KingsLanding
+ 1006 | IronIslands
+ 1006 | Vale
+ 1006 | BlackwaterBay
+ 1007 | BlackwaterBay
+ 1007 | KingsLanding
+ 1007 | Vale
+ 1007 | IronIslands
+ 1008 | Stormlands
+ 1008 | BlackwaterBay
+ 1008 | Riverrun
+ 1009 | Riverrun
+ 1009 | BlackwaterBay
+ 1009 | Stormlands
+ 1010 | BlackwaterBay
+ 1010 | KingsLanding
+ 1010 | IronIslands
+ 1010 | Vale
+ 1011 | BlackwaterBay
+ 1011 | Stormlands
+ 1011 | Riverrun
+ 1013 | CasterlyRock
+ 1013 | Highgarden
+ 1014 | Winterfell
+ 1014 | CastleBlack
+ 1016 | Dorne
+ 1016 | Winterfell
+ 1017 | Stormlands
+ 1017 | Riverrun
+ 1017 | BlackwaterBay
+ 1018 | CastleBlack
+ 1018 | Winterfell
+ 1019 | Highgarden
+ 1019 | CasterlyRock
+(41 rows)
+
+Problem 3
+   skill    
+------------
+ Leadership
+(1 row)
+
+Problem 4
+ wid  | booleancondition 
+------+------------------
+ 1001 | t
+ 1002 | f
+ 1003 | t
+ 1004 | f
+ 1005 | f
+ 1006 | f
+ 1007 | f
+ 1008 | f
+ 1009 | f
+ 1010 | f
+ 1011 | t
+ 1012 | f
+ 1013 | t
+ 1014 | f
+ 1015 | f
+ 1016 | f
+ 1017 | f
+ 1018 | f
+ 1019 | f
+ 1020 | f
+(20 rows)
+
+Problem 5
+ wid  |  wname  
+------+---------
+ 1001 | JonSnow
+ 1012 | Samwell
+(2 rows)
+
+DROP DATABASE

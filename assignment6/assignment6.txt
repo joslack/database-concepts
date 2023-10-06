@@ -1,0 +1,190 @@
+CREATE DATABASE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+INSERT 0 19
+INSERT 0 8
+INSERT 0 19
+INSERT 0 15
+INSERT 0 5
+INSERT 0 46
+INSERT 0 66
+CREATE FUNCTION
+CREATE FUNCTION
+CREATE FUNCTION
+CREATE FUNCTION
+CREATE FUNCTION
+CREATE FUNCTION
+CREATE FUNCTION
+CREATE FUNCTION
+CREATE FUNCTION
+CREATE FUNCTION
+CREATE FUNCTION
+CREATE FUNCTION
+CREATE FUNCTION
+CREATE FUNCTION
+CREATE FUNCTION
+CREATE FUNCTION
+CREATE FUNCTION
+CREATE FUNCTION
+CREATE FUNCTION
+CREATE FUNCTION
+CREATE FUNCTION
+CREATE FUNCTION
+CREATE FUNCTION
+CREATE FUNCTION
+CREATE FUNCTION
+CREATE FUNCTION
+CREATE FUNCTION
+CREATE FUNCTION
+CREATE VIEW
+CREATE VIEW
+CREATE VIEW
+CREATE VIEW
+CREATE VIEW
+CREATE VIEW
+CREATE VIEW
+Problem 1
+ pid  |  pname   | set_intersection 
+------+----------+------------------
+ 1001 | Jean     | {1002}
+ 1002 | Vidya    | {1004,1015}
+ 1003 | Anna     | {1004,1006,1015}
+ 1004 | Qin      | {1006,1016,1018}
+ 1005 | Megan    | {1014,1015}
+ 1006 | Ryan     | {1014,1016}
+ 1007 | Danielle | {1018}
+ 1008 | Emma     | {1001}
+ 1009 | Hasan    | {1018}
+ 1010 | Linda    | {1018}
+ 1011 | Nick     | {1002,1012,1015}
+ 1012 | Eric     | {1001,1004,1014}
+ 1013 | Lisa     | {1004,1018}
+ 1014 | Deepa    | {1001,1002,1004}
+ 1015 | Chris    | {1002,1016}
+ 1016 | YinYue   | {}
+ 1017 | Latha    | {1014}
+ 1018 | Arif     | {1015}
+ 1019 | John     | {1001,1004}
+(19 rows)
+
+Problem 2
+ pid  | pname 
+------+-------
+ 1005 | Megan
+ 1011 | Nick
+(2 rows)
+
+Problem 3
+             skills             
+--------------------------------
+ {}
+ {AI}
+ {AI,Databases}
+ {AI,Networks}
+ {AI,OperatingSystems}
+ {AI,Programming}
+ {Databases}
+ {Databases,Networks}
+ {Databases,OperatingSystems}
+ {Databases,Programming}
+ {Networks}
+ {Networks,OperatingSystems}
+ {Networks,Programming}
+ {OperatingSystems}
+ {OperatingSystems,Programming}
+ {Programming}
+(16 rows)
+
+Problem 4
+CREATE FUNCTION
+CREATE FUNCTION
+t = 0.0
+             pairs              
+--------------------------------
+ {Databases,OperatingSystems}
+ {AI,OperatingSystems}
+ {Networks,Programming}
+ {Databases,Networks}
+ {AI,Programming}
+ {OperatingSystems,Programming}
+ {AI,Databases}
+ {Networks,OperatingSystems}
+ {Databases,Programming}
+ {AI,Networks}
+(10 rows)
+
+t = 0.25
+             pairs              
+--------------------------------
+ {Databases,OperatingSystems}
+ {AI,OperatingSystems}
+ {Networks,Programming}
+ {Databases,Networks}
+ {AI,Programming}
+ {OperatingSystems,Programming}
+ {Networks,OperatingSystems}
+ {Databases,Programming}
+(8 rows)
+
+t = 0.50
+        pairs         
+----------------------
+ {Databases,Networks}
+ {AI,Programming}
+(2 rows)
+
+t = 0.75
+        pairs         
+----------------------
+ {Databases,Networks}
+(1 row)
+
+t = 1.0
+        pairs         
+----------------------
+ {Databases,Networks}
+(1 row)
+
+CREATE TABLE
+INSERT 0 6
+CREATE TABLE
+INSERT 0 5
+CREATE TABLE
+INSERT 0 14
+Problem 5
+CREATE TYPE
+CREATE TYPE
+CREATE VIEW
+ cno  |                             gradeinfo                             
+------+-------------------------------------------------------------------
+ c200 | {"(A,\"{(s100)}\")","(B,\"{(s101),(s102)}\")"}
+ c201 | {"(A,\"{(s101),(s103)}\")","(D,\"{(s104)}\")","(B,\"{(s100)}\")"}
+ c202 | {"(A,\"{(s100),(s101),(s102)}\")"}
+ c301 | {"(B,\"{(s102)}\")","(C,\"{(s101)}\")"}
+ c302 | {"(A,\"{(s101),(s102)}\")"}
+(5 rows)
+
+Problem 6
+ cno  
+------
+ c202
+ c302
+(2 rows)
+
+Problem 7
+CREATE VIEW
+                                                                                               gradeinfo                                                                                               
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ {"cno" : "c200", "gradeInfo" : [{"grade" : "B", "students" : [{"sid" : "s101"},{"sid" : "s102"}]},{"grade" : "A", "students" : [{"sid" : "s100"}]}]}
+ {"cno" : "c201", "gradeInfo" : [{"grade" : "A", "students" : [{"sid" : "s101"},{"sid" : "s103"}]},{"grade" : "D", "students" : [{"sid" : "s104"}]},{"grade" : "B", "students" : [{"sid" : "s100"}]}]}
+ {"cno" : "c202", "gradeInfo" : [{"grade" : "A", "students" : [{"sid" : "s100"},{"sid" : "s101"},{"sid" : "s102"}]}]}
+ {"cno" : "c301", "gradeInfo" : [{"grade" : "B", "students" : [{"sid" : "s102"}]},{"grade" : "C", "students" : [{"sid" : "s101"}]}]}
+ {"cno" : "c302", "gradeInfo" : [{"grade" : "A", "students" : [{"sid" : "s101"},{"sid" : "s102"}]}]}
+(5 rows)
+
+DROP DATABASE

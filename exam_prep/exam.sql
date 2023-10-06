@@ -4,6 +4,8 @@ CREATE DATABASE joslack;
 -- Connecting to database 
 \c joslack;
 
+
+
 CREATE TABLE Westerosi(wid integer,
                     wname text,
                     wlocation text,
@@ -179,7 +181,10 @@ INSERT INTO Predecessor VALUES
  (1017, 1011),
  (1018, 1001),
  (1003, 1008),
- (1014, 1012);
+ (1014, 1012),
+ (1011, 1003),
+ (1018, 1003),
+ (1010, 1003);
 
  INSERT INTO Knows VALUES
  (1011,1009),
@@ -246,131 +251,9 @@ INSERT INTO Predecessor VALUES
  (1011,1005),
  (1014,1012);
 
-\qecho 'Problem 1'
-CREATE TABLE WhiteWalker(ranking integer NOT NULL, 
-                         wid integer, 
-                         skill text,
-                         nkname text,
-                         kills integer,
-                         primary key(ranking),
-                         foreign key (wid) references Westerosi(wid),
-                         foreign key (skill) references Skill(skill));
-
-INSERT INTO WhiteWalker VALUES
-(1,1001,'Swordsmanship','WalkerJonSnow',99),
-(2,1004,'Politics','WalkerCersei',2),
-(3,1019,'Archery','WalkerTyrion',37),
-(4,1014,'Swordsmanship','WalkerBrienne',999),
-(5,1002,'Leadership','WalkerDaenerys',0);
-
-\qecho 'Problem 2'
-SELECT * FROM WhiteWalker w WHERE w.kills > 5;
-
-\qecho 'Problem 3'
-SELECT w.wid, w.wname, w.wlocation
-FROM Westerosi w
-WHERE w.wid IN (
-     SELECT o.wid 
-     FROM OfHouse o 
-     WHERE o.hname = 'Stark'
-     );
-
-\qecho 'Problem 4'
-SELECT w.wid
-FROM Westerosi w
-EXCEPT 
-SELECT ws.wid 
-FROM WesterosiSkill ws 
-WHERE (ws.skill = 'Archery' 
-     OR ws.skill = 'Swordsmanship');
-
-\qecho 'Problem 5'
-\qecho 'See SQL Comments for formulated queries. Their specific error messages follow: '
-\qecho 'Example 1: Insert repeated key'
-INSERT INTO Westerosi VALUES
-(1001, 'WHAT DO WE SAY TO THE GOD OF DEATH', 'Braavos');
-
-\qecho 'Example 2: Insert with nonexistant wid'
-INSERT INTO WesterosiSkill VALUES
-(777, 'WHAT DO WE SAY TO THE GOD OF DEATH');
-
-\qecho 'Example 3: Delete record before its references are deleted'
-DELETE FROM Westerosi w WHERE w.wid = 1004;
-
-\qecho 'Example 4: Foreign Key of Foreign key'
-CREATE TABLE dummyTable1(key1 integer,primary key(key1));
-CREATE TABLE dummyTable2(key2 integer,foreign key(key2) references dummyTable1(key1));
-CREATE TABLE dummyTable3(key3 integer,foreign key(key3) references dummyTable2(key2));
 
 
-\qecho 'Problem 6'
-SELECT w.wid, w.wname, h.hname
-FROM Westerosi w, OfHouse h
-WHERE h.hname IN (
-          SELECT har.hname 
-          FROM HouseAllyRegion har 
-          WHERE har.region = 'CasterlyRock'
-          )
-     AND h.wid = w.wid
-     AND 'Archery' IN (
-          SELECT s.skill 
-          FROM WesterosiSkill s 
-          WHERE s.wid = w.wid
-          )
-     AND h.wages > 50000 
-     AND h.wages < 75000;
-     
-\qecho 'Problem 7'
--- given wid1 != wid2 and hname1 = hname2 then there are two westerosi with the same house
-SELECT DISTINCT h.hname
-FROM OfHouse h, OfHouse h1
-WHERE h.wid <> h1.wid 
-     AND h.hname = h1.hname 
-ORDER BY h.hname ASC;
-
-\qecho 'Problem 8'
-SELECT DISTINCT w.wid, w.wname, w.wlocation
-FROM Westerosi w
-WHERE w.wid IN (
-     SELECT s.succid 
-     FROM Predecessor s
-     )
-ORDER by w.wid;
-
-\qecho 'Problem 9'
-SELECT w.wid
-FROM Westerosi w, WesterosiSkill s
-WHERE w.wid = s.wid 
-     AND (
-          s.skill = 'Archery'
-          OR s.skill = 'Politics'
-          )
-INTERSECT
-SELECT w.wid
-FROM Westerosi w, OfHouse h
-WHERE w.wid = h.wid 
-     AND (
-          h.hname = 'Stark' 
-          OR h.hname = 'Baratheon'
-          );
-
-\qecho 'Problem 10'
-(SELECT w.wid
-FROM Westerosi w
-EXCEPT
-SELECT p.succid
-FROM Predecessor p)
-UNION
-(SELECT w1.wid
-FROM Westerosi w1
-EXCEPT
-SELECT h.wid
-FROM OfHouse h
-EXCEPT
-SELECT s.wid
-FROM WesterosiSkill s);
--- Connect to default database
+SELECT w1.wid, w2.wid
+FROM Westerosi w1 JOIN Westerosi w2 ON (w1.wid <> w2.wid);
 \c postgres;
-
--- Drop database created for this assignment
 DROP DATABASE joslack;

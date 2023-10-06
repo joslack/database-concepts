@@ -1,0 +1,268 @@
+CREATE DATABASE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+INSERT 0 20
+INSERT 0 7
+INSERT 0 19
+INSERT 0 14
+INSERT 0 5
+INSERT 0 38
+INSERT 0 15
+INSERT 0 63
+CREATE TABLE
+INSERT 0 6
+DROP TABLE
+CREATE TABLE
+INSERT 0 5
+DROP TABLE
+CREATE TABLE
+Problem 1
+ r1 | r2  
+----+-----
+ -1 |  -3
+  2 |   2
+  3 |   3
+  3 |   1
+  1 | 0.5
+(5 rows)
+
+Problem 2
+CREATE FUNCTION
+CREATE FUNCTION
+ ratio 
+-------
+  1.42
+(1 row)
+
+Problem 3
+CREATE FUNCTION
+ skillsinrange 
+---------------
+             6
+(1 row)
+
+ skillsinrange 
+---------------
+             2
+(1 row)
+
+Problem 4
+CREATE FUNCTION
+CREATE FUNCTION
+ wid  
+------
+ 1003
+(1 row)
+
+ wid  
+------
+ 1007
+ 1010
+(2 rows)
+
+Problem 5
+5a: Using Exists, Not Exists
+ wid  
+------
+ 1003
+ 1008
+ 1016
+ 1018
+ 1020
+(5 rows)
+
+5b: Using In, Not In
+ wid  
+------
+ 1003
+ 1008
+ 1016
+ 1018
+ 1020
+(5 rows)
+
+Problem 6
+6a: Using Exists, Not Exists
+   hname1    |   hname2    
+-------------+-------------
+ Baratheon   | Lannister
+ Baratheon   | NightsWatch
+ Baratheon   | Targaryen
+ Baratheon   | Tyrell
+ Lannister   | Baratheon
+ Lannister   | Martell
+ Lannister   | NightsWatch
+ Lannister   | Targaryen
+ Lannister   | Tyrell
+ Martell     | Lannister
+ Martell     | NightsWatch
+ Martell     | Stark
+ Martell     | Targaryen
+ Martell     | Tyrell
+ NightsWatch | Baratheon
+ NightsWatch | Lannister
+ NightsWatch | Martell
+ NightsWatch | Tyrell
+ Stark       | Martell
+ Stark       | Targaryen
+ Stark       | Tyrell
+ Targaryen   | Baratheon
+ Targaryen   | Lannister
+ Targaryen   | Martell
+ Targaryen   | Stark
+ Targaryen   | Tyrell
+ Tyrell      | Baratheon
+ Tyrell      | Lannister
+ Tyrell      | Martell
+ Tyrell      | NightsWatch
+ Tyrell      | Stark
+ Tyrell      | Targaryen
+(32 rows)
+
+6b: Using In, Not In
+   hname1    |   hname2    
+-------------+-------------
+ Baratheon   | Lannister
+ Baratheon   | NightsWatch
+ Baratheon   | Targaryen
+ Baratheon   | Tyrell
+ Lannister   | Baratheon
+ Lannister   | Martell
+ Lannister   | NightsWatch
+ Lannister   | Targaryen
+ Lannister   | Tyrell
+ Martell     | Lannister
+ Martell     | NightsWatch
+ Martell     | Stark
+ Martell     | Targaryen
+ Martell     | Tyrell
+ NightsWatch | Baratheon
+ NightsWatch | Lannister
+ NightsWatch | Martell
+ NightsWatch | Tyrell
+ Stark       | Martell
+ Stark       | Targaryen
+ Stark       | Tyrell
+ Targaryen   | Baratheon
+ Targaryen   | Lannister
+ Targaryen   | Martell
+ Targaryen   | Stark
+ Targaryen   | Tyrell
+ Tyrell      | Baratheon
+ Tyrell      | Lannister
+ Tyrell      | Martell
+ Tyrell      | NightsWatch
+ Tyrell      | Stark
+ Tyrell      | Targaryen
+(32 rows)
+
+6c: Using Except, Intersect
+   hname1    |   hname2    
+-------------+-------------
+ Baratheon   | Lannister
+ Baratheon   | NightsWatch
+ Baratheon   | Targaryen
+ Baratheon   | Tyrell
+ Lannister   | Baratheon
+ Lannister   | Martell
+ Lannister   | NightsWatch
+ Lannister   | Targaryen
+ Lannister   | Tyrell
+ Martell     | Lannister
+ Martell     | NightsWatch
+ Martell     | Stark
+ Martell     | Targaryen
+ Martell     | Tyrell
+ NightsWatch | Baratheon
+ NightsWatch | Lannister
+ NightsWatch | Martell
+ NightsWatch | Tyrell
+ Stark       | Martell
+ Stark       | Targaryen
+ Stark       | Tyrell
+ Targaryen   | Baratheon
+ Targaryen   | Lannister
+ Targaryen   | Martell
+ Targaryen   | Stark
+ Targaryen   | Tyrell
+ Tyrell      | Baratheon
+ Tyrell      | Lannister
+ Tyrell      | Martell
+ Tyrell      | NightsWatch
+ Tyrell      | Stark
+ Tyrell      | Targaryen
+(32 rows)
+
+Problem 7
+7a: Using Exists, Not Exists
+ wid  |    hname    
+------+-------------
+ 1001 | NightsWatch
+ 1004 | Lannister
+(2 rows)
+
+7b: Using In, Not In
+ wid  |    hname    
+------+-------------
+ 1001 | NightsWatch
+ 1004 | Lannister
+(2 rows)
+
+7c: Using Except, Intersect
+ wid  |    hname    
+------+-------------
+ 1004 | Lannister
+ 1001 | NightsWatch
+(2 rows)
+
+Problem 8
+CREATE VIEW
+ wid  |  wname  
+------+---------
+ 1003 | Sansa
+ 1005 | Jamie
+ 1011 | Catelyn
+(3 rows)
+
+Problem 9
+SELECT 7
+ wid  
+------
+ 1009
+ 1012
+ 1012
+ 1013
+ 1013
+ 1014
+ 1019
+(7 rows)
+
+Problem 10
+CREATE VIEW
+INSERT 0 6
+ node 
+------
+    1
+    2
+    4
+    8
+   16
+(5 rows)
+
+DELETE 6
+INSERT 0 5
+ node 
+------
+    0
+    3
+    7
+    5
+(4 rows)
+
+DROP DATABASE

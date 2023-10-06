@@ -4,6 +4,8 @@ CREATE DATABASE joslack;
 -- Connecting to database 
 \c joslack;
 
+
+
 CREATE TABLE Westerosi(wid integer,
                     wname text,
                     wlocation text,
@@ -179,7 +181,10 @@ INSERT INTO Predecessor VALUES
  (1017, 1011),
  (1018, 1001),
  (1003, 1008),
- (1014, 1012);
+ (1014, 1012),
+ (1011, 1003),
+ (1018, 1003),
+ (1010, 1003);
 
  INSERT INTO Knows VALUES
  (1011,1009),
@@ -246,129 +251,223 @@ INSERT INTO Predecessor VALUES
  (1011,1005),
  (1014,1012);
 
+
 \qecho 'Problem 1'
-CREATE TABLE WhiteWalker(ranking integer NOT NULL, 
-                         wid integer, 
-                         skill text,
-                         nkname text,
-                         kills integer,
-                         primary key(ranking),
-                         foreign key (wid) references Westerosi(wid),
-                         foreign key (skill) references Skill(skill));
-
-INSERT INTO WhiteWalker VALUES
-(1,1001,'Swordsmanship','WalkerJonSnow',99),
-(2,1004,'Politics','WalkerCersei',2),
-(3,1019,'Archery','WalkerTyrion',37),
-(4,1014,'Swordsmanship','WalkerBrienne',999),
-(5,1002,'Leadership','WalkerDaenerys',0);
-
-\qecho 'Problem 2'
-SELECT * FROM WhiteWalker w WHERE w.kills > 5;
-
-\qecho 'Problem 3'
-SELECT w.wid, w.wname, w.wlocation
-FROM Westerosi w
-WHERE w.wid IN (
-     SELECT o.wid 
-     FROM OfHouse o 
-     WHERE o.hname = 'Stark'
-     );
-
-\qecho 'Problem 4'
-SELECT w.wid
-FROM Westerosi w
-EXCEPT 
-SELECT ws.wid 
-FROM WesterosiSkill ws 
-WHERE (ws.skill = 'Archery' 
-     OR ws.skill = 'Swordsmanship');
-
-\qecho 'Problem 5'
-\qecho 'See SQL Comments for formulated queries. Their specific error messages follow: '
-\qecho 'Example 1: Insert repeated key'
-INSERT INTO Westerosi VALUES
-(1001, 'WHAT DO WE SAY TO THE GOD OF DEATH', 'Braavos');
-
-\qecho 'Example 2: Insert with nonexistant wid'
-INSERT INTO WesterosiSkill VALUES
-(777, 'WHAT DO WE SAY TO THE GOD OF DEATH');
-
-\qecho 'Example 3: Delete record before its references are deleted'
-DELETE FROM Westerosi w WHERE w.wid = 1004;
-
-\qecho 'Example 4: Foreign Key of Foreign key'
-CREATE TABLE dummyTable1(key1 integer,primary key(key1));
-CREATE TABLE dummyTable2(key2 integer,foreign key(key2) references dummyTable1(key1));
-CREATE TABLE dummyTable3(key3 integer,foreign key(key3) references dummyTable2(key2));
 
 
-\qecho 'Problem 6'
-SELECT w.wid, w.wname, h.hname
-FROM Westerosi w, OfHouse h
-WHERE h.hname IN (
-          SELECT har.hname 
-          FROM HouseAllyRegion har 
-          WHERE har.region = 'CasterlyRock'
-          )
-     AND h.wid = w.wid
-     AND 'Archery' IN (
-          SELECT s.skill 
-          FROM WesterosiSkill s 
-          WHERE s.wid = w.wid
-          )
-     AND h.wages > 50000 
-     AND h.wages < 75000;
+
+
+-- SELECT w.wid, w.wname 
+-- FROM Westerosi w NATURAL JOIN (SELECT p.succid as wid FROM Predecessor p) as s
+-- EXCEPT
+-- SELECT w.wid, w.wname
+-- FROM Westerosi w NATURAL JOIN 
+--      (SELECT p.succid as wid 
+--      FROM Predecessor p NATURAL JOIN 
+--           (SELECT oh2.wid as predid, oh1.wid as succid
+--           FROM OfHouse oh1 JOIN OfHouse oh2 ON (oh1.wages <= oh2.wages)
+--           ) as q
+--      ) as s;
+
      
-\qecho 'Problem 7'
--- given wid1 != wid2 and hname1 = hname2 then there are two westerosi with the same house
-SELECT DISTINCT h.hname
-FROM OfHouse h, OfHouse h1
-WHERE h.wid <> h1.wid 
-     AND h.hname = h1.hname 
-ORDER BY h.hname ASC;
+\qecho 'Problem 3'
+-- SELECT Distinct w.wid
+-- FROM Westerosi w
+-- WHERE w.wlocation = 'Winterfell' AND EXISTS(
+-- 	SELECT 1
+-- 	FROM Ofhouse h, WesterosiSkill w1
+-- 	WHERE w.wid = h.wid 
+-- 		AND w.wid = w1.wid 
+-- 		AND h.wages = 50000 
+-- 		AND NOT w1.skill= 'Swordsmandship'
+-- );
 
-\qecho 'Problem 8'
-SELECT DISTINCT w.wid, w.wname, w.wlocation
-FROM Westerosi w
-WHERE w.wid IN (
-     SELECT s.succid 
-     FROM Predecessor s
-     )
-ORDER by w.wid;
+-- SELECT Distinct w.wid
+-- FROM Westerosi w, Ofhouse h, WesterosiSkill w1
+-- WHERE w.wlocation = 'Winterfell' 
+--      AND w.wid = h.wid 
+--      AND w.wid = w1.wid 
+--      AND h.wages = 50000 
+--      AND w1.skill <> 'Swordsmandship';
 
-\qecho 'Problem 9'
-SELECT w.wid
-FROM Westerosi w, WesterosiSkill s
-WHERE w.wid = s.wid 
-     AND (
-          s.skill = 'Archery'
-          OR s.skill = 'Politics'
-          )
-INTERSECT
-SELECT w.wid
-FROM Westerosi w, OfHouse h
-WHERE w.wid = h.wid 
-     AND (
-          h.hname = 'Stark' 
-          OR h.hname = 'Baratheon'
-          );
+-- SELECT w.wid
+-- FROM Westerosi w NATURAL JOIN
+-- 	(SELECT h.wid
+-- 	FROM OfHouse h NATURAL JOIN (SELECT ws.wid
+-- 							FROM WesterosiSkill ws
+-- 							WHERE ws.skill <> 'Swordsmanship') as skill
+-- 	WHERE h.wages = 50000) as wages
+-- WHERE w.wlocation = 'Winterfell';
 
-\qecho 'Problem 10'
-(SELECT w.wid
-FROM Westerosi w
-EXCEPT
-SELECT p.succid
-FROM Predecessor p)
-UNION
-(SELECT w1.wid
-FROM Westerosi w1
-EXCEPT
-SELECT h.wid
-FROM OfHouse h
-EXCEPT
-SELECT s.wid
-FROM WesterosiSkill s);
+\qecho 'problem 2'
+SELECT H.HNAME, H.KINGDOM  
+FROM HOUSE H  
+WHERE H.HNAME in  
+	(SELECT OH.HNAME  
+	FROM OFHOUSE OH  
+	WHERE OH.WAGES < 60000  
+		AND OH.WID = SOME  
+					(SELECT WS.WID  
+					FROM WESTEROSISKILL WS  
+					WHERE WS.SKILL = 'Archery'));
+
+SELECT DISTINCT H.HNAME, H.KINGDOM  
+FROM HOUSE H,OFHOUSE OH, WESTEROSISKILL WS
+WHERE H.HNAME = OH.HNAME 
+	AND OH.WAGES < 60000 
+	AND OH.WID = WS.WID 
+	AND WS.SKILL='Archery';
+
+SELECT DISTINCT H.HNAME, H.KINGDOM
+FROM HOUSE H NATURAL JOIN (
+     SELECT OH.HNAME 
+     FROM OFHOUSE OH NATURAL JOIN (
+          SELECT WS.WID
+          FROM WESTEROSISKILL WS
+          WHERE WS.SKILL='Archery'
+     ) AS B
+     WHERE OH.WAGES < 60000
+) AS A;
+
+\qecho 'Problem 4' 
+SELECT ha.hname, w.wid
+FROM Westerosi w NATURAL JOIN (SELECT hname FROM HOUSEALLYREGION WHERE region='IronIslands') as ha;
+SELECT ha.hname, w.wid
+FROM Westerosi w , (SELECT hname FROM HOUSEALLYREGION WHERE region='IronIslands') as ha;
+\qecho 'problem 4'
+SELECT W.WID  
+FROM WESTEROSI W  
+WHERE NOT EXISTS (
+	SELECT 1  
+	FROM HOUSEALLYREGION HA  
+	WHERE HA.REGION = 'IronIslands'
+		AND HA.HNAME NOT IN (
+			SELECT H.HNAME  
+			FROM OFHOUSE H  
+			WHERE H.WID = W.WID  
+				AND H.WID in (
+					SELECT WS.WID  
+					FROM WESTEROSISKILL WS  
+					WHERE WS.SKILL = 'Archery')));
+
+WITH IRONISLANDS AS (SELECT HA.HNAME FROM HOUSEALLYREGION HA WHERE HA.REGION='IronIslands'),
+     ARCHERY AS (SELECT WS.WID FROM WESTEROSISKILL WS WHERE WS.SKILL='Archery')
+SELECT W.WID
+FROM (
+     SELECT W.WID
+     FROM WESTEROSI W
+     EXCEPT
+     SELECT W.WID
+     FROM (
+          SELECT HA.HNAME,W.WID
+          FROM WESTEROSI W NATURAL JOIN IRONISLANDS HA
+          EXCEPT
+          SELECT OH.HNAME, OH.WID
+          FROM OFHOUSE OH NATURAL JOIN ARCHERY
+     ) AS W
+) AS W;
+
+-- SELECT W.WID  
+-- FROM (
+-- 	SELECT W.WID
+-- 	FROM WESTEROSI W
+-- 	EXCEPT
+--      SELECT W.WID
+--      FROM (SELECT HA.HNAME, W.WID  
+--           FROM HOUSEALLYREGION HA, WESTEROSI W  
+--           WHERE HA.REGION = 'IronIslands'
+--           EXCEPT
+--           SELECT H.HNAME, WS.WID
+--           FROM OFHOUSE H, WESTEROSISKILL WS
+--           WHERE H.WID = WS.WID AND WS.SKILL = 'Archery'
+--           ) AS W) 
+--      as W;
+
+-- SELECT W.WID  
+-- FROM WESTEROSI W  
+-- WHERE NOT EXISTS (
+-- 	SELECT HA.HNAME  
+-- 	FROM HOUSEALLYREGION HA  
+-- 	WHERE HA.REGION = 'IronIslands' 
+-- 	EXCEPT
+-- 	SELECT H.HNAME  
+-- 	FROM OFHOUSE H, WESTEROSISKILL WS
+-- 	WHERE H.WID = W.WID AND H.WID = WS.WID AND WS.SKILL = 'Archery');
+
+-- SELECT W.WID 
+-- FROM (
+--      SELECT HA.HNAME, W.WID 
+--      FROM HOUSEALLYREGION HA, WESTEROSI W 
+--      WHERE HA.REGION = 'IronIslands'
+--      INTERSECT
+--      SELECT H.HNAME, WS.WID
+--      FROM OFHOUSE H, WESTEROSISKILL WS
+--      WHERE H.WID = WS.WID AND WS.SKILL = 'Archery'
+--      ) AS W;
+
+-- SELECT W.WID  
+-- FROM (
+--      SELECT HA.HNAME, W.WID  
+--      FROM HOUSEALLYREGION HA, WESTEROSI W, OFHOUSE H, WESTEROSISKILL WS
+--      WHERE HA.REGION = 'IronIslands' 
+--           AND H.WID = WS.WID 
+--           AND WS.SKILL = 'Archery' 
+--           AND W.WID = WS.WID
+--           AND HA.HNAME = H.HNAME
+--      ) AS W;
+-- EXCEPT
+-- SELECT w.wid, w.wname
+-- FROM Westerosi w JOIN Predecessor p ON (w.wid = p.succid) 
+--           JOIN (Ofhouse oh1 JOIN OfHouse oh2 ON (oh1.wages <= oh2.wages))
+--                ON (oh1.wid = p.succid AND oh2.wid = p.predid);
+
+
+
+-- testing joins
+-- SELECT *  
+-- FROM Westerosi NATURAL JOIN OfHouse;
+
+-- SELECT w.wid, w.wname,w1.wid, w1.wname 
+-- FROM Westerosi w NATURAL JOIN (SELECT wid, wname FROM WESTEROSI JOIN Knows ON wid=wid2) w1;
+
+-- SELECT DISTINCT h1.hname
+-- FROM Ofhouse h1, OfHouse h2
+-- WHERE h1.hname = h2.hname AND h1.wid <> h2.wid;
+
+-- SELECT h1.hname
+-- FROM Ofhouse h1, OfHouse h2
+-- WHERE h1.hname = h2.hname AND h1.wid <> h2.wid
+-- INTERSECT 
+-- SELECT hname 
+-- FROM House;
+
+-- SELECT DISTINCT p.predid
+-- FROM Predecessor p
+-- EXCEPT 
+-- SELECT p.predid
+-- FROM Predecessor p
+-- WHERE EXISTS(
+--   SELECT p1.succid
+--   FROM Predecessor p1, WesterosiSkill w1
+--   WHERE p1.predid = p.predid AND w1.wid = p1.succid
+--     AND w1.skill NOT IN (
+--       SELECT w2.skill
+--       FROM WesterosiSkill w2
+--       WHERE w2.wid = p1.predid)
+-- );
+-- CREATE FUNCTION count_people_at_places() returns TABLE(wlocation text, npersons int)
+-- AS $$
+--      SELECT w.wlocation, COUNT(w.wlocation)
+--      FROM Westerosi w
+--      GROUP BY w.wlocation;
+-- $$ LANGUAGE SQL;
+
+-- SELECT n.wlocation, n.npersons
+-- FROM count_people_at_places() n
+-- WHERE n.npersons >= ALL(
+--      SELECT n1.npersons
+--      FROM count_people_at_places() n1
+-- );
 -- Connect to default database
 \c postgres;
 
